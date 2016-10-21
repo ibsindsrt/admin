@@ -114,39 +114,39 @@ switch (ENVIRONMENT)
  *
  * NO TRAILING SLASH!
  */
-$replace = $_SERVER['HTTP_HOST'];
-if ($replace == 'ibsind.com')
-$theam = 'admin';
-elseif ($replace == 'admin.ibsind.com')
-$theam = 'Website';
-elseif ($replace == 'apps.ibsind.com')
-$theam = 'apps';
-else	
-{
-$mysqliDebug = true; 
-$mysqli = @new mysqli("mysql.hostinger.in", "u977715357_dev", "Infinity@123", "u977715357_dev");
-  if ($mysqli->connect_errno) {		
-		$pagecontents = file_get_contents($_SERVER['DOCUMENT_ROOT'].'/error.html');			
-			$error = str_replace('url111', "$replace", $pagecontents);
-		echo $error;			
-        if ($mysqliDebug) {}
-       die();
-   }
-$query =  "SELECT Theam FROM User_ResellerMaster Where URL='$replace'";
-$result = $mysqli->query($query);
-if ($result) {
-        if ($recordObj = $result->fetch_object()) {
-            $theam = $recordObj->Theam;
-       }		
-       else {
-           $theam = 'apps';
-       }		      
-       $result->close();
-   }
-$mysqli->close();
-}
+//$replace = $_SERVER['HTTP_HOST'];
+//if ($replace == 'ibsind.com')
+//$theam = 'admin';
+//elseif ($replace == 'admin.ibsind.com')
+//$theam = 'Website';
+//elseif ($replace == 'apps.ibsind.com')
+//$theam = 'apps';
+//else	
+//{
+//$mysqliDebug = true; 
+//$mysqli = @new mysqli("mysql.hostinger.in", "u977715357_dev", "Infinity@123", "u977715357_dev");
+//  if ($mysqli->connect_errno) {		
+//		$pagecontents = file_get_contents($_SERVER['DOCUMENT_ROOT'].'/error.html');			
+//			$error = str_replace('url111', "$replace", $pagecontents);
+//		echo $error;			
+//        if ($mysqliDebug) {}
+//       die();
+//   }
+//$query =  "SELECT Theam FROM User_ResellerMaster Where URL='$replace'";
+//$result = $mysqli->query($query);
+//if ($result) {
+//        if ($recordObj = $result->fetch_object()) {
+//            $theam = $recordObj->Theam;
+//       }		
+//       else {
+//           $theam = 'apps';
+//       }		      
+//       $result->close();
+//   }
+//$mysqli->close();
+//}
 
-$application_folder = $theam;
+$application_folder = admin;
 
 /*
  *---------------------------------------------------------------
