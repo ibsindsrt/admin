@@ -1,0 +1,2 @@
+$("#state_Id").autocomplete({source:function(request,response){$.getJSON(base_url+'Customjs/'+'getstatelist',{term:request.term,country_id:$('#my_country').val()},response);},minLength:1})
+$(document).ready(function(){$('#my_country').select2();});

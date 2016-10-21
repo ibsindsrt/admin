@@ -1,0 +1,1 @@
+$("#country_id").autocomplete({source:base_url+'Customjs/'+'getcountrylist'})

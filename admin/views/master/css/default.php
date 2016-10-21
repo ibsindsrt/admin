@@ -1,0 +1,1 @@
+<link rel="stylesheet" type="text/css" href="//ibsind.com/assets/admin/css/ibstheam.min.css">

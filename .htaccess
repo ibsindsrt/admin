@@ -1,0 +1,194 @@
+# Do not remove this line or mod_rewrite rules and search engine friendly URLs will stop working
+
+# pass the default character set
+AddDefaultCharset utf-8
+
+<IfModule mod_mime.c>
+    AddType application/atom+xml                        atom
+    AddType application/json                            json map topojson
+    AddType application/ld+json                         jsonld
+    AddType application/rss+xml                         rss
+    AddType application/vnd.geo+json                    geojson
+    AddType application/xml                             rdf xml
+    AddType application/javascript                      js
+    AddType application/x-web-app-manifest+json         webapp
+    AddType text/cache-manifest                         appcache
+    AddType audio/mp4                                   f4a f4b m4a
+    AddType audio/ogg                                   oga ogg opus
+    AddType image/bmp                                   bmp
+    AddType image/svg+xml                               svg svgz
+    AddType image/webp                                  webp
+    AddType video/mp4                                   f4v f4p m4v mp4
+    AddType video/ogg                                   ogv
+    AddType video/webm                                  webm
+    AddType video/x-flv                                 flv
+    AddType image/x-icon                                cur ico
+    AddType application/font-woff                       woff
+    AddType application/font-woff2                      woff2
+    AddType application/vnd.ms-fontobject               eot
+    AddType application/x-font-ttf                      ttc ttf
+    AddType font/opentype                               otf
+    AddType application/octet-stream                    safariextz
+    AddType application/x-bb-appworld                   bbaw
+    AddType application/x-chrome-extension              crx
+    AddType application/x-opera-extension               oex
+    AddType application/x-xpinstall                     xpi
+    AddType text/vcard                                  vcard vcf
+    AddType text/vnd.rim.location.xloc                  xloc
+    AddType text/vtt                                    vtt
+    AddType text/x-component                            htc
+</IfModule>
+
+<IfModule mod_setenvif.c>
+	<IfModule mod_headers.c>
+		Header set Connection keep-alive
+		Header set X-Permitted-Cross-Domain-Policies "none"
+		Header set X-Content-Type-Options "nosniff"
+		Header unset X-Powered-By
+		Header set X-XSS-Protection "1; mode=block"
+		Header set X-Frame-Options "DENY"
+		Header set X-Content-Security-Policy "default-src 'self'; img-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self' 'unsafe-inline'; connect-src 'self';"
+		Header set Strict-Transport-Security "max-age=31536000; includeSubDomains"	
+		<FilesMatch "\.(gif|png|jpg|jpeg|svg|svgz|ico|x-icon|webp|swf)$">
+				SetEnvIf Origin ":" IS_CORS
+				Header set Access-Control-Allow-Origin "*" env=IS_CORS
+				Header set Cache-Control "max-age=1296000, public"
+                                Header append Vary: Accept-Encoding
+			</FilesMatch>			
+			<FilesMatch "\.(ttf|ttc|otf|eot|woff|woff2|font.css|css|js|doc|pdf|ppt|flv|avi|mov|mp3|wmv|wav)$">
+				Header set Access-Control-Allow-Origin "*" env=IS_CORS
+				Header set Cache-Control "max-age=2592000, public"
+                                Header append Vary: Accept-Encoding
+			</FilesMatch>			
+			<FilesMatch "\.(xml|txt|htm|html|php)$">
+				Header set Access-Control-Allow-Origin "*" env=IS_CORS
+				Header set Cache-Control "max-age=604800, public, must-revalidate"
+                                Header append Vary: Accept-Encoding
+			</FilesMatch>                        
+	</IfModule>
+</IfModule>
+
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+	RewriteBase /
+	
+	# RewriteCond %{HTTPS} !=on
+	RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+	RewriteRule ^(.*)$ http://%1/$1 [L,R=301]
+	
+	# RewriteCond %{HTTP:X-Forwarded-Proto} =http [OR]
+	# RewriteCond %{HTTP:X-Forwarded-Proto} =""
+	# RewriteCond %{HTTPS} !=on
+	# Redirect to https version
+	# RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+	
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteRule .* index.php/$1 [PT,L]
+</IfModule>
+
+<IfModule pagespeed_module>
+    ModPageSpeed on
+    ModPagespeedRewriteLevel CoreFilters
+    ModPagespeedEnableFilters prioritize_critical_css
+    ModPagespeedEnableFilters defer_javascript
+    ModPagespeedEnableFilters sprite_images
+    ModPagespeedEnableFilters convert_png_to_jpeg,convert_jpeg_to_webp
+    ModPagespeedEnableFilters collapse_whitespace,remove_comments
+</IfModule>
+
+<IfModule mod_deflate.c>
+	AddOutputFilterByType DEFLATE application/atom+xml
+	AddOutputFilterByType DEFLATE application/javascript
+	AddOutputFilterByType DEFLATE application/json
+	AddOutputFilterByType DEFLATE application/ld+json
+	AddOutputFilterByType DEFLATE application/manifest+json
+	AddOutputFilterByType DEFLATE application/rdf+xml
+	AddOutputFilterByType DEFLATE application/rss+xml
+	AddOutputFilterByType DEFLATE application/schema+json
+	AddOutputFilterByType DEFLATE application/vnd.geo+json
+	AddOutputFilterByType DEFLATE application/vnd.ms-fontobject
+	AddOutputFilterByType DEFLATE application/x-font
+	AddOutputFilterByType DEFLATE application/x-font-opentype
+	AddOutputFilterByType DEFLATE application/x-font-otf
+	AddOutputFilterByType DEFLATE application/x-font-truetype
+	AddOutputFilterByType DEFLATE application/x-font-ttf
+	AddOutputFilterByType DEFLATE application/x-font-woff
+	AddOutputFilterByType DEFLATE application/x-font-woff2
+	AddOutputFilterByType DEFLATE application/xhtml+xml
+	AddOutputFilterByType DEFLATE application/x-javascript
+	AddOutputFilterByType DEFLATE application/xml
+	AddOutputFilterByType DEFLATE application/x-web-app-manifest+json
+	AddOutputFilterByType DEFLATE font/eot
+	AddOutputFilterByType DEFLATE font/opentype
+	AddOutputFilterByType DEFLATE font/otf
+	AddOutputFilterByType DEFLATE font/truetype
+	AddOutputFilterByType DEFLATE font/ttf
+	AddOutputFilterByType DEFLATE font/woff
+	AddOutputFilterByType DEFLATE font/woff2
+	AddOutputFilterByType DEFLATE image/bmp
+	AddOutputFilterByType DEFLATE image/jpeg
+	AddOutputFilterByType DEFLATE image/png
+	AddOutputFilterByType DEFLATE image/svg+xml
+	AddOutputFilterByType DEFLATE image/vnd.microsoft.icon
+	AddOutputFilterByType DEFLATE image/x-icon
+	AddOutputFilterByType DEFLATE image/x-icon .ico
+	AddOutputFilterByType DEFLATE text/cache-manifest
+	AddOutputFilterByType DEFLATE text/css
+	AddOutputFilterByType DEFLATE text/html
+	AddOutputFilterByType DEFLATE text/javascript
+	AddOutputFilterByType DEFLATE text/plain
+	AddOutputFilterByType DEFLATE text/vcard
+	AddOutputFilterByType DEFLATE text/vnd.rim.location.xloc
+	AddOutputFilterByType DEFLATE text/vtt
+	AddOutputFilterByType DEFLATE text/x-component
+	AddOutputFilterByType DEFLATE text/x-cross-domain-policy
+	AddOutputFilterByType DEFLATE text/xml
+	# For Olders Browsers Which Can't Handle Compression
+		BrowserMatch ^Mozilla/4 gzip-only-text/html
+		BrowserMatch ^Mozilla/4\.0[678] no-gzip
+		BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+</IfModule>
+
+
+
+# Cache-Control
+<ifModule mod_expires.c>
+	ExpiresActive On
+	ExpiresDefault "access plus 7 days"
+	ExpiresByType text/html "access plus 7 days"
+	ExpiresByType text/php "access plus 7 days"
+	ExpiresByType text/css "access plus 1 month"
+	ExpiresByType text/javascript "access plus 1 month"
+	ExpiresByType text/x-javascript "access plus 1 month"
+	ExpiresByType text/x-cross-domain-policy "access plus 1 month"
+	
+	ExpiresByType image/.ico "access plus 1 year"
+	ExpiresByType image/x-icon "access plus 1 year"
+	ExpiresByType image/jpg "access plus 6 month"
+	ExpiresByType image/jpeg "access plus 6 month"
+	ExpiresByType image/gif "access plus 6 month"
+	ExpiresByType image/png "access plus 6 month"
+	ExpiresByType audio/ogg "access plus 1 year"
+	ExpiresByType image/bmp "access plus 1 year"
+	ExpiresByType image/svg+xml "access plus 1 year"
+	ExpiresByType image/webp "access plus 1 year"
+	ExpiresByType video/mp4 "access plus 1 year"
+	ExpiresByType video/ogg "access plus 1 year"
+	ExpiresByType video/webm "access plus 1 year"
+	
+	ExpiresByType application/x-javascript "access plus 1 month"
+	ExpiresByType application/pdf "access plus 1 month"
+	ExpiresByType application/javascript "access plus 1 month"
+	ExpiresByType application/x-javascript "access plus 1 month"
+	ExpiresByType application/x-shockwave-flash "access plus 1 month"
+	
+	ExpiresByType application/vnd.ms-fontobject "access plus 1 year"
+	ExpiresByType application/x-font-ttf "access plus 1 year"
+	ExpiresByType application/font-woff "access plus 1 year"
+	ExpiresByType application/x-font-woff "access plus 1 year"
+	ExpiresByType application/font-woff2 "access plus 1 year"
+	ExpiresByType font/eot "access plus 1 year"
+	ExpiresByType font/opentype "access plus 1 year"
+	ExpiresByType font/woff "access plus 1 year"
+ </ifModule>

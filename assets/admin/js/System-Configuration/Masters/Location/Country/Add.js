@@ -1,0 +1,2 @@
+$("#country_id").autocomplete({source:base_url+'Customjs/'+'getcountrylist'})
+$(function(){setTimeout(function(){$("#successMessage").hide('blind',{},1000)},3000);});$(function(){setTimeout(function(){$("#successMessages").hide('blind',{},1000)},3000);});

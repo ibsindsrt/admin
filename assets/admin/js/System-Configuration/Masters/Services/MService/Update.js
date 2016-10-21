@@ -1,0 +1,1 @@
+$("#mservice_id").autocomplete({source:base_url+'Customjs/'+'getmservicelist'})
